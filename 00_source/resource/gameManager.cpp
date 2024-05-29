@@ -15,7 +15,7 @@
 #include "cinemaScope.h"
 #include "timerUI.h"
 #include "retentionManager.h"
-#include "camera.h"
+#include "gridManager.h"
 
 //************************************************************
 //	定数宣言
@@ -24,6 +24,11 @@ namespace
 {
 	const int GAMEEND_WAIT_FRAME = 180;	// リザルト画面への遷移余韻フレーム
 }
+
+//************************************************************
+//	静的メンバ変数宣言
+//************************************************************
+CGridManager *CGameManager::m_pGridManager = nullptr;	// グリッドマネージャー
 
 //************************************************************
 //	親クラス [CGameManager] のメンバ関数
@@ -53,6 +58,16 @@ HRESULT CGameManager::Init(void)
 	// メンバ変数を初期化
 	m_state = STATE_NORMAL;	// 状態
 
+	// グリッドマネージャーの生成
+	m_pGridManager = CGridManager::Create();
+	if (m_pGridManager == nullptr)
+	{ // 生成に失敗した場合
+
+		// 失敗を返す
+		assert(false);
+		return E_FAIL;
+	}
+
 	// 成功を返す
 	return S_OK;
 }
@@ -62,7 +77,8 @@ HRESULT CGameManager::Init(void)
 //============================================================
 void CGameManager::Uninit(void)
 {
-
+	// グリッドマネージャーの破棄
+	SAFE_REF_RELEASE(m_pGridManager);
 }
 
 //============================================================
@@ -80,6 +96,10 @@ void CGameManager::Update(const float fDeltaTime)
 		assert(false);
 		break;
 	}
+
+	// グリッドマネージャーの更新
+	assert(m_pGridManager != nullptr);
+	m_pGridManager->Update(fDeltaTime);
 }
 
 //============================================================
@@ -155,4 +175,16 @@ void CGameManager::Release(CGameManager *&prGameManager)
 
 	// メモリ開放
 	SAFE_DELETE(prGameManager);
+}
+
+//============================================================
+//	グリッドマネージャー取得処理
+//============================================================
+CGridManager *CGameManager::GetGridManager(void)
+{
+	// インスタンス未使用
+	assert(m_pGridManager != nullptr);
+
+	// グリッドマネージャーのポインタを返す
+	return m_pGridManager;
 }

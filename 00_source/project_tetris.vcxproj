@@ -175,6 +175,7 @@
     <ClCompile Include="resource\gameManager.cpp" />
     <ClCompile Include="resource\gauge2D.cpp" />
     <ClCompile Include="resource\gauge3D.cpp" />
+    <ClCompile Include="resource\gridManager.cpp" />
     <ClCompile Include="resource\hitStop.cpp" />
     <ClCompile Include="resource\input.cpp" />
     <ClCompile Include="resource\light.cpp" />
@@ -274,6 +275,7 @@
     <ClInclude Include="resource\gameManager.h" />
     <ClInclude Include="resource\gauge2D.h" />
     <ClInclude Include="resource\gauge3D.h" />
+    <ClInclude Include="resource\gridManager.h" />
     <ClInclude Include="resource\hitStop.h" />
     <ClInclude Include="resource\input.h" />
     <ClInclude Include="resource\light.h" />

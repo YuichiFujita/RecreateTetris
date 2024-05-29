@@ -1,65 +1,54 @@
 //============================================================
 //
-//	ゲームマネージャーヘッダー [gameManager.h]
+//	グリッドマネージャーヘッダー [gridManager.h]
 //	Author：藤田勇一
 //
 //============================================================
 //************************************************************
 //	二重インクルード防止
 //************************************************************
-#ifndef _GAMEMANAGER_H_
-#define _GAMEMANAGER_H_
+#ifndef _GRID_MANAGER_H_
+#define _GRID_MANAGER_H_
 
 //************************************************************
-//	インクルードファイル
+//	定数宣言
 //************************************************************
-#include "retentionManager.h"
+namespace grid
+{
+	const int WIDTH	 = 10;	// グリッド横幅
+	const int HEIGHT = 20;	// グリッド縦幅
+}
 
 //************************************************************
 //	前方宣言
 //************************************************************
-class CGridManager;	// グリッドマネージャークラス
+class CObject3D;	// オブジェクト3Dクラス
 
 //************************************************************
 //	クラス定義
 //************************************************************
-// ゲームマネージャークラス
-class CGameManager
+// グリッドマネージャークラス
+class CGridManager
 {
 public:
-	// 状態列挙
-	enum EState
-	{
-		STATE_NONE = 0,	// 何もしない状態
-		STATE_NORMAL,	// 通常状態
-		STATE_MAX		// この列挙型の総数
-	};
-
 	// コンストラクタ
-	CGameManager();
+	CGridManager();
 
 	// デストラクタ
-	~CGameManager();
+	~CGridManager();
 
 	// メンバ関数
 	HRESULT Init(void);	// 初期化
 	void Uninit(void);	// 終了
 	void Update(const float fDeltaTime);	// 更新
-	void SetState(const EState state);		// 状態設定
-	EState GetState(void) const;			// 状態取得
-	void TransitionResult(const CRetentionManager::EWin win);	// リザルト画面遷移
 
 	// 静的メンバ関数
-	static CGameManager *Create(void);					// 生成
-	static void Release(CGameManager *&prGameManager);	// 破棄
-	static CGridManager *GetGridManager(void);			// グリッドマネージャー取得
+	static CGridManager *Create(void);	// 生成
+	static void Release(CGridManager *&prGridManager);	// 破棄
 
 private:
-	// 静的メンバ変数
-	static CGridManager *m_pGridManager;	// グリッドマネージャー情報
-
 	// メンバ変数
-	EState m_state;	// 状態
+	CObject3D *m_apGrid[grid::WIDTH][grid::HEIGHT];	// グリッド情報
 };
 
-#endif	// _GAMEMANAGER_H_
+#endif	// _GRID_MANAGER_H_
