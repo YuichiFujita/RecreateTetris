@@ -11,9 +11,6 @@
 #include "manager.h"
 #include "sceneGame.h"
 #include "renderer.h"
-#include "stage.h"
-#include "player.h"
-#include "multiModel.h"
 
 //************************************************************
 //	定数宣言

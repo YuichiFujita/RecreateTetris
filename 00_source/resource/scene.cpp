@@ -17,9 +17,7 @@
 #include "sceneGame.h"
 #include "sceneResult.h"
 #include "sceneRanking.h"
-
 #include "stage.h"
-#include "player.h"
 
 //************************************************************
 //	定数宣言
@@ -72,9 +70,6 @@ HRESULT CScene::Init(void)
 		assert(false);
 		return E_FAIL;
 	}
-
-	// プレイヤーの生成
-	CPlayer::Create(m_mode);
 
 	// カメラ位置を設定
 	CCamera *pCamera = GET_MANAGER->GetCamera();	// カメラ情報
@@ -186,20 +181,6 @@ CStage *CScene::GetStage(void)
 
 	// ステージのポインタを返す
 	return m_pStage;
-}
-
-//============================================================
-//	プレイヤー取得処理
-//============================================================
-CPlayer *CScene::GetPlayer(void)
-{
-	CListManager<CPlayer> *pListManager = CPlayer::GetList();	// プレイヤーリストマネージャー
-	if (pListManager == nullptr)		 { return nullptr; }	// リスト未使用の場合抜ける
-	if (pListManager->GetNumAll() != 1)	 { return nullptr; }	// プレイヤーが1人ではない場合抜ける
-	CPlayer *pPlayer = pListManager->GetList().front();			// プレイヤーの情報
-
-	// プレイヤーのポインタを返す
-	return pPlayer;
 }
 
 //============================================================

@@ -16,18 +16,12 @@
 #include "timerUI.h"
 #include "retentionManager.h"
 #include "camera.h"
-#include "player.h"
-#include "multiModel.h"
 
 //************************************************************
 //	定数宣言
 //************************************************************
 namespace
 {
-	const D3DXVECTOR3 POS_NAME	 = D3DXVECTOR3(0.0f, 60.0f, 400.0f);	// 名前の表示位置
-	const D3DXVECTOR3 POS_SKIP	 = D3DXVECTOR3(1092.0f, 673.0f, 0.0f);	// スキップ操作の表示位置
-	const D3DXVECTOR3 SIZE_SKIP	 = D3DXVECTOR3(381.0f, 77.0f, 0.0f);	// スキップ操作の表示大きさ
-	const int CHANGE_UI_PRIORITY = 5;	// シネマスコープ終了時のUI優先順位
 	const int GAMEEND_WAIT_FRAME = 180;	// リザルト画面への遷移余韻フレーム
 }
 
@@ -114,11 +108,8 @@ void CGameManager::TransitionResult(const CRetentionManager::EWin win)
 	// フェード中の場合抜ける
 	if (GET_MANAGER->GetFade()->GetState() != CFade::FADE_NONE) { return; }
 
-	// タイマーの計測終了
-	CSceneGame::GetTimerUI()->End();
-
 	// リザルト情報を保存
-	GET_RETENTION->SetResult(win, CSceneGame::GetTimerUI()->GetTime());
+	GET_RETENTION->SetResult(win, 0.0f);
 
 	// リザルト画面に遷移
 	GET_MANAGER->SetFadeScene(CScene::MODE_RESULT, GAMEEND_WAIT_FRAME);

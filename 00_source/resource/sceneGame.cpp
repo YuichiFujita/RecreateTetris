@@ -19,7 +19,6 @@
 #include "hitStop.h"
 #include "flash.h"
 #include "stage.h"
-#include "player.h"
 
 //************************************************************
 //	定数宣言
@@ -44,7 +43,6 @@ namespace
 //	静的メンバ変数宣言
 //************************************************************
 CGameManager	*CSceneGame::m_pGameManager	= nullptr;	// ゲームマネージャー
-CTimerUI		*CSceneGame::m_pTimerUI		= nullptr;	// タイマーUI
 CCinemaScope	*CSceneGame::m_pCinemaScope	= nullptr;	// シネマスコープ
 CPause			*CSceneGame::m_pPause		= nullptr;	// ポーズ
 CHitStop		*CSceneGame::m_pHitStop		= nullptr;	// ヒットストップ
@@ -79,25 +77,6 @@ HRESULT CSceneGame::Init(void)
 	//--------------------------------------------------------
 	// シーンの初期化
 	CScene::Init();	// ステージ・プレイヤーの生成
-
-	// タイマーUIの生成
-	m_pTimerUI = CTimerUI::Create
-	( // 引数
-		timerInfo::TIME_START,	// 開始時間
-		timerInfo::TIME_LIMIT,	// 制限時間
-		timerInfo::POS,			// 位置
-		timerInfo::VAL_SIZE,	// 数字の大きさ
-		timerInfo::PART_SIZE,	// 区切りの大きさ
-		timerInfo::VAL_SPACE,	// 数字の空白
-		timerInfo::PART_SPACE	// 区切りの空白
-	);
-	if (m_pTimerUI == nullptr)
-	{ // 非使用中の場合
-
-		// 失敗を返す
-		assert(false);
-		return E_FAIL;
-	}
 
 	// シネマスコープの生成
 	m_pCinemaScope = CCinemaScope::Create();
@@ -152,9 +131,6 @@ HRESULT CSceneGame::Init(void)
 	//--------------------------------------------------------
 	//	初期設定
 	//--------------------------------------------------------
-	// タイマーの計測を開始する
-	m_pTimerUI->Start();
-
 	// BGMの再生
 	PLAY_SOUND(CSound::LABEL_BGM_GAME);
 
@@ -169,9 +145,6 @@ void CSceneGame::Uninit(void)
 {
 	// ゲームマネージャーの破棄
 	SAFE_REF_RELEASE(m_pGameManager);
-
-	// タイマーUIの終了
-	SAFE_UNINIT(m_pTimerUI);
 
 	// シネマスコープの破棄
 	SAFE_REF_RELEASE(m_pCinemaScope);
@@ -262,18 +235,6 @@ CGameManager *CSceneGame::GetGameManager(void)
 
 	// ゲームマネージャーのポインタを返す
 	return m_pGameManager;
-}
-
-//============================================================
-//	タイマーUI取得処理
-//============================================================
-CTimerUI *CSceneGame::GetTimerUI(void)
-{
-	// インスタンス未使用
-	assert(m_pTimerUI != nullptr);
-
-	// タイマーUIのポインタを返す
-	return m_pTimerUI;
 }
 
 //============================================================

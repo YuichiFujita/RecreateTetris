@@ -13,12 +13,6 @@
 #include "camera.h"
 #include "tutorialManager.h"
 
-#include "player.h"
-#include "stage.h"
-#include "wall.h"
-#include "scenery.h"
-#include "sky.h"
-
 //************************************************************
 //	Ã“Iƒƒ“ƒo•Ï”éŒ¾
 //************************************************************

@@ -166,8 +166,8 @@ void CPause::Update(const float fDeltaTime)
 			// ポーズ状況を切り替え
 			m_bPause = !m_bPause;
 
-			// タイムの計測状況を切り替え
-			CSceneGame::GetTimerUI()->EnableStop(m_bPause);
+			// 全タイマーの計測状況の設定
+			EnableTimerStopAll(m_bPause);
 
 			// 現在の選択を初期化
 			m_nSelect = SELECT_RESUME;
@@ -365,8 +365,8 @@ void CPause::Select(void)
 				// ポーズを終了する
 				m_bPause = false;
 
-				// タイムの計測を再開する
-				CSceneGame::GetTimerUI()->EnableStop(m_bPause);
+				// 全タイマーの計測状況の設定
+				EnableTimerStopAll(m_bPause);
 
 				// 描画状況の設定
 				SetEnableDraw(m_bPause);
@@ -391,5 +391,25 @@ void CPause::Select(void)
 				break;
 			}
 		}
+	}
+}
+
+//============================================================
+//	全タイマーの計測状況の設定処理
+//============================================================
+void CPause::EnableTimerStopAll(const bool bStop)
+{
+	// タイマーからリストマネージャーを取得
+	CListManager<CTimer> *pList = CTimer::GetList();
+	if (pList == nullptr) { return; }	// タイマーがないなら抜ける
+
+	// リストマネージャーからリストを取得
+	std::list<CTimer*> listTimer = pList->GetList();
+
+	// 全タイマーオブジェクトの計測状況を設定
+	for (auto& rList : listTimer)
+	{ // リスト内の要素数分繰り返す
+
+		rList->EnableStop(bStop);
 	}
 }
