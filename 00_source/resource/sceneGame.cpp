@@ -20,6 +20,9 @@
 #include "flash.h"
 #include "stage.h"
 
+// TODO
+#include "block.h"
+
 //************************************************************
 //	’è”éŒ¾
 //************************************************************
@@ -127,6 +130,9 @@ HRESULT CSceneGame::Init(void)
 		assert(false);
 		return E_FAIL;
 	}
+
+	// TODO
+	CBlock::Create(CBlock::TYPE_T);
 
 	//--------------------------------------------------------
 	//	‰Šúİ’è

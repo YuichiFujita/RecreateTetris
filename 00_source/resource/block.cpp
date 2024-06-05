@@ -8,6 +8,9 @@
 //	インクルードファイル
 //************************************************************
 #include "block.h"
+#include "sceneGame.h"
+#include "gameManager.h"
+#include "gridManager.h"
 
 //************************************************************
 //	定数宣言
@@ -23,7 +26,7 @@ namespace
 //============================================================
 //	コンストラクタ
 //============================================================
-CBlock::CBlock(const EType type) :
+CBlock::CBlock(const EType type) : CObject(CObject::LABEL_BLOCK, CObject::DIM_2D, 0),
 	m_type		(type),			// 種類
 	m_pos		(GRID2_ZERO),	// 原点位置
 	m_fCurTime	(0.0f)			// 現在の待機時間
@@ -45,8 +48,11 @@ CBlock::~CBlock()
 HRESULT CBlock::Init(void)
 {
 	// メンバ変数を初期化
-	m_pos = POSGRID2(5, 20);	// 原点位置
+	m_pos = POSGRID2(4, 19);	// 原点位置
 	m_fCurTime = 0.0f;			// 現在の待機時間
+
+	// ブロック色の反映
+	SetColBlock(m_pos, m_type);
 
 	// 成功を返す
 	return S_OK;
@@ -57,7 +63,8 @@ HRESULT CBlock::Init(void)
 //============================================================
 void CBlock::Uninit(void)
 {
-
+	// オブジェクトを破棄
+	Release();
 }
 
 //============================================================
@@ -65,13 +72,34 @@ void CBlock::Uninit(void)
 //============================================================
 void CBlock::Update(const float fDeltaTime)
 {
+	// 一番下に到達している場合抜ける
+	if (m_pos.y <= 0) { return; }
+
 	// 待機時間を加算
 	m_fCurTime += fDeltaTime;
-	if (m_fCurTime >= 3.0f)
-	{
+	while (m_fCurTime >= 3.0f)
+	{ // 待機し終わった場合
+
+		// 現在の待機時間から減算
+		m_fCurTime -= 3.0f;
+
+		// 前回の位置を保存
+		POSGRID2 posOld = m_pos;
+
 		// 原点位置に重力を与える
 		m_pos.y--;
+
+		// ブロックを入れ替え
+		SwapBlock(posOld, m_pos);
 	}
+}
+
+//============================================================
+//	描画処理
+//============================================================
+void CBlock::Draw(CShader * /*pShader*/)
+{
+
 }
 
 //============================================================
@@ -101,4 +129,27 @@ CBlock *CBlock::Create(const EType type)
 		// 確保したアドレスを返す
 		return pBlock;
 	}
+}
+
+//============================================================
+//	ブロックの入替処理
+//============================================================
+void CBlock::SwapBlock(const POSGRID2& rOldPos, const POSGRID2& rCurPos)
+{
+	// 前回位置のブロック色の反映
+	SetColBlock(rOldPos, TYPE_NONE);
+
+	// 現在位置のブロック色の反映
+	SetColBlock(rCurPos, m_type);
+}
+
+//============================================================
+//	ブロック色の反映処理
+//============================================================
+void CBlock::SetColBlock(const POSGRID2& rPos, const EType type)
+{
+	CGridManager *pGrid = CSceneGame::GetGameManager()->GetGridManager();	// グリッド情報
+
+	// ブロック色の反映
+	pGrid->SetColBlock(rPos, type);
 }

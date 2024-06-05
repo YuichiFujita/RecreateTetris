@@ -15,8 +15,19 @@
 //************************************************************
 namespace
 {
+	D3DXCOLOR COL_TYPE[] =	// ブロックごとの色
+	{
+		XCOL_WHITE,	// ブロックなし
+		XCOL_BLUE,	// T型
+	};
+
 	const D3DXVECTOR3 SIZE_GRID = D3DXVECTOR3(36.0f, 36.0f, 0.0f);	// グリッドの大きさ
 }
+
+//************************************************************
+//	スタティックアサート
+//************************************************************
+static_assert(NUM_ARRAY(COL_TYPE) == CBlock::TYPE_MAX, "ERROR : Type Count Mismatch");
 
 //************************************************************
 //	親クラス [CGridManager] のメンバ関数
@@ -65,7 +76,9 @@ HRESULT CGridManager::Init(void)
 			m_aGrid[j][i].pVisual = CObject3D::Create
 			( // 引数
 				pos,				// 位置
-				SIZE_GRID * 0.9f	// 大きさ
+				SIZE_GRID * 0.9f,	// 大きさ
+				VEC3_ZERO,			// 向き
+				COL_TYPE[0]			// 色
 			);
 			if (m_aGrid[j][i].pVisual == nullptr)
 			{ // 生成に失敗した場合
@@ -76,7 +89,7 @@ HRESULT CGridManager::Init(void)
 			}
 
 			// ラベルの設定
-			m_aGrid[j][i].pVisual->SetLabel(CObject::LABEL_MAP);	// 自動更新・破棄が行われるようになる
+			m_aGrid[j][i].pVisual->SetLabel(CObject::LABEL_BLOCK);	// 自動更新・破棄が行われるようになる
 		}
 	}
 
@@ -98,6 +111,18 @@ void CGridManager::Uninit(void)
 void CGridManager::Update(const float fDeltaTime)
 {
 
+}
+
+//============================================================
+//	ブロック色の反映処理
+//============================================================
+void CGridManager::SetColBlock(const POSGRID2& rCurPos, const CBlock::EType type)
+{
+	// 種類に合わせた色を設定
+	m_aGrid[rCurPos.x][rCurPos.y].pVisual->SetColor(COL_TYPE[type]);
+
+	// ブロックがある場合判定をONにする
+	m_aGrid[rCurPos.x][rCurPos.y].bBlock = (type == CBlock::TYPE_NONE) ? false : true;
 }
 
 //============================================================

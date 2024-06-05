@@ -11,6 +11,11 @@
 #define _BLOCK_H_
 
 //************************************************************
+//	インクルードファイル
+//************************************************************
+#include "object.h"
+
+//************************************************************
 //	クラス定義
 //************************************************************
 // ブロッククラス
@@ -20,8 +25,9 @@ public:
 	// 種類列挙
 	enum EType
 	{
-		TYPE_T = 0,	// T型
-		TYPE_MAX	// この列挙型の総数
+		TYPE_NONE = 0,	// ブロック無し
+		TYPE_T,			// T型
+		TYPE_MAX		// この列挙型の総数
 	};
 
 	// コンストラクタ
@@ -30,17 +36,22 @@ public:
 	// デストラクタ
 	~CBlock();
 
-	// メンバ関数
-	HRESULT Init(void);	// 初期化
-	void Uninit(void);	// 終了
-	void Update(const float fDeltaTime);	// 更新
+	// オーバーライド関数
+	HRESULT Init(void) override;	// 初期化
+	void Uninit(void) override;		// 終了
+	void Update(const float fDeltaTime) override;	// 更新
+	void Draw(CShader *pShader = nullptr) override;	// 描画
 
 	// 静的メンバ関数
 	static CBlock *Create(const EType type);	// 生成
 
 private:
+	// オーバーライド関数
+	void Release(void) override { CObject::Release(); }	// 破棄
+
 	// メンバ関数
-	void SwapBlock(const POSGRID2& rOldPos, const POSGRID2& rCurPos);	// TODO：BLOCK生成されてたらこっち側からブロックの反映をするよって処理作ろう
+	void SwapBlock(const POSGRID2& rOldPos, const POSGRID2& rCurPos);	// ブロック入替
+	void SetColBlock(const POSGRID2& rPos, const EType type);			// ブロック色反映
 
 	// メンバ変数
 	const EType m_type;	// 種類
