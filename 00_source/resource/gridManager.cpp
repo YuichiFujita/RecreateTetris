@@ -27,7 +27,7 @@ namespace
 CGridManager::CGridManager()
 {
 	// メンバ変数をクリア
-	memset(&m_apGrid[0][0], 0, sizeof(m_apGrid));	// グリッド情報
+	memset(&m_aGrid[0][0], 0, sizeof(m_aGrid));	// グリッド情報
 }
 
 //============================================================
@@ -44,12 +44,15 @@ CGridManager::~CGridManager()
 HRESULT CGridManager::Init(void)
 {
 	// メンバ変数を初期化
-	memset(&m_apGrid[0][0], 0, sizeof(m_apGrid));	// グリッド情報
+	memset(&m_aGrid[0][0], 0, sizeof(m_aGrid));	// グリッド情報
 
 	for (int i = 0; i < grid::HEIGHT; i++)
 	{
 		for (int j = 0; j < grid::WIDTH; j++)
 		{
+			// ブロックがない状態にする
+			m_aGrid[j][i].bBlock = false;
+
 			// グリッドの位置を求める
 			D3DXVECTOR3 pos = D3DXVECTOR3
 			(
@@ -59,12 +62,12 @@ HRESULT CGridManager::Init(void)
 			);
 
 			// グリッドの生成
-			m_apGrid[j][i] = CObject3D::Create
+			m_aGrid[j][i].pVisual = CObject3D::Create
 			( // 引数
 				pos,				// 位置
 				SIZE_GRID * 0.9f	// 大きさ
 			);
-			if (m_apGrid[j][i] == nullptr)
+			if (m_aGrid[j][i].pVisual == nullptr)
 			{ // 生成に失敗した場合
 
 				// 失敗を返す
@@ -73,7 +76,7 @@ HRESULT CGridManager::Init(void)
 			}
 
 			// ラベルの設定
-			m_apGrid[j][i]->SetLabel(CObject::LABEL_MAP);	// 自動更新・破棄が行われるようになる
+			m_aGrid[j][i].pVisual->SetLabel(CObject::LABEL_MAP);	// 自動更新・破棄が行われるようになる
 		}
 	}
 

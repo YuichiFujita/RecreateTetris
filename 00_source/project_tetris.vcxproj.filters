@@ -327,6 +327,9 @@
     <ClCompile Include="resource\gridManager.cpp">
       <Filter>02_scene\game</Filter>
     </ClCompile>
+    <ClCompile Include="resource\block.cpp">
+      <Filter>02_scene\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource\anim2D.h">
@@ -615,6 +618,9 @@
       <Filter>02_scene\game</Filter>
     </ClInclude>
     <ClInclude Include="resource\gridManager.h">
+      <Filter>02_scene\game</Filter>
+    </ClInclude>
+    <ClInclude Include="resource\block.h">
       <Filter>02_scene\game</Filter>
     </ClInclude>
   </ItemGroup>

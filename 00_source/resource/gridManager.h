@@ -47,8 +47,15 @@ public:
 	static void Release(CGridManager *&prGridManager);	// 破棄
 
 private:
+	// グリッド構造体
+	struct SGrid
+	{
+		CObject3D *pVisual;	// 見た目ポリゴン
+		bool bBlock;		// ブロックがあるか
+	};
+
 	// メンバ変数
-	CObject3D *m_apGrid[grid::WIDTH][grid::HEIGHT];	// グリッド情報
+	SGrid m_aGrid[grid::WIDTH][grid::HEIGHT];	// グリッド情報
 };
 
 #endif	// _GRID_MANAGER_H_
