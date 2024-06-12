@@ -188,6 +188,7 @@
     <ClCompile Include="resource\model.cpp" />
     <ClCompile Include="resource\modelUI.cpp" />
     <ClCompile Include="resource\motion.cpp" />
+    <ClCompile Include="resource\multiBlock.cpp" />
     <ClCompile Include="resource\multiModel.cpp" />
     <ClCompile Include="resource\multiValue.cpp" />
     <ClCompile Include="resource\object.cpp" />
@@ -289,6 +290,7 @@
     <ClInclude Include="resource\model.h" />
     <ClInclude Include="resource\modelUI.h" />
     <ClInclude Include="resource\motion.h" />
+    <ClInclude Include="resource\multiBlock.h" />
     <ClInclude Include="resource\multiModel.h" />
     <ClInclude Include="resource\multiValue.h" />
     <ClInclude Include="resource\object.h" />

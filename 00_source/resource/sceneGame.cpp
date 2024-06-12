@@ -21,7 +21,7 @@
 #include "stage.h"
 
 // TODO
-#include "block.h"
+#include "multiBlock.h"
 
 //************************************************************
 //	’è”éŒ¾
@@ -132,7 +132,7 @@ HRESULT CSceneGame::Init(void)
 	}
 
 	// TODO
-	CBlock::Create(CBlock::TYPE_T);
+	CMultiBlock::Create(CMultiBlock::TYPE_T);
 
 	//--------------------------------------------------------
 	//	‰Šúİ’è

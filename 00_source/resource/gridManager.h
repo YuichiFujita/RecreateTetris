@@ -13,7 +13,7 @@
 //************************************************************
 //	インクルードファイル
 //************************************************************
-#include "block.h"
+#include "multiBlock.h"
 
 //************************************************************
 //	前方宣言
@@ -26,7 +26,7 @@ class CObject3D;	// オブジェクト3Dクラス
 namespace grid
 {
 	const int WIDTH	 = 10;	// グリッド横幅
-	const int HEIGHT = 20;	// グリッド縦幅
+	const int HEIGHT = 22;	// グリッド縦幅
 }
 
 //************************************************************
@@ -46,7 +46,8 @@ public:
 	HRESULT Init(void);	// 初期化
 	void Uninit(void);	// 終了
 	void Update(const float fDeltaTime);	// 更新
-	void SetColBlock(const POSGRID2& rCurPos, const CBlock::EType type);	// ブロック色反映
+	bool IsBlock(const POSGRID2& rPos);		// ブロック判定取得
+	void SetColBlock(const POSGRID2& rCurPos, const CMultiBlock::EType type);		// ブロック色反映
 
 	// 静的メンバ関数
 	static CGridManager *Create(void);	// 生成

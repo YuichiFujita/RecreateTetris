@@ -11,52 +11,44 @@
 #define _BLOCK_H_
 
 //************************************************************
-//	インクルードファイル
+//	前方宣言
 //************************************************************
-#include "object.h"
+class CMultiBlock;	// マルチブロッククラス
 
 //************************************************************
 //	クラス定義
 //************************************************************
 // ブロッククラス
-class CBlock : public CObject
+class CBlock
 {
 public:
-	// 種類列挙
-	enum EType
-	{
-		TYPE_NONE = 0,	// ブロック無し
-		TYPE_T,			// T型
-		TYPE_MAX		// この列挙型の総数
-	};
-
 	// コンストラクタ
-	CBlock(const EType type);
+	CBlock();
 
 	// デストラクタ
 	~CBlock();
 
-	// オーバーライド関数
-	HRESULT Init(void) override;	// 初期化
-	void Uninit(void) override;		// 終了
-	void Update(const float fDeltaTime) override;	// 更新
-	void Draw(CShader *pShader = nullptr) override;	// 描画
+	// メンバ関数
+	HRESULT Init(void);	// 初期化
+	void Uninit(void);	// 終了
+	void Update(const float fDeltaTime);	// 更新
+
+	void SetPosition(const POSGRID2& rPos)		{ m_pos = rPos; }		// 位置設定
+	void SetOldPosition(const POSGRID2& rPos)	{ m_posOld = rPos; }	// 過去位置設定
+	void SetOffset(const POSGRID2& rOffset)		{ m_offset = rOffset; }	// オフセット設定
+	POSGRID2 GetPosition(void) const			{ return m_pos; }		// 位置取得
+	POSGRID2 GetOldPosition(void) const			{ return m_posOld; }	// 過去位置取得
+	POSGRID2 GetOffset(void) const				{ return m_offset; }	// オフセット取得
 
 	// 静的メンバ関数
-	static CBlock *Create(const EType type);	// 生成
+	static CBlock *Create(CMultiBlock* pParent);	// 生成
 
 private:
-	// オーバーライド関数
-	void Release(void) override { CObject::Release(); }	// 破棄
-
-	// メンバ関数
-	void SwapBlock(const POSGRID2& rOldPos, const POSGRID2& rCurPos);	// ブロック入替
-	void SetColBlock(const POSGRID2& rPos, const EType type);			// ブロック色反映
-
 	// メンバ変数
-	const EType m_type;	// 種類
-	POSGRID2 m_pos;		// 原点位置
-	float m_fCurTime;	// 現在の待機時間
+	CMultiBlock* m_pParent;	// 自身の統括クラス
+	POSGRID2 m_pos;			// 現在位置
+	POSGRID2 m_posOld;		// 過去位置
+	POSGRID2 m_offset;		// オフセット位置
 };
 
 #endif	// _BLOCK_H_

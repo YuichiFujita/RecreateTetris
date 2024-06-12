@@ -27,7 +27,7 @@ namespace
 //************************************************************
 //	スタティックアサート
 //************************************************************
-static_assert(NUM_ARRAY(COL_TYPE) == CBlock::TYPE_MAX, "ERROR : Type Count Mismatch");
+static_assert(NUM_ARRAY(COL_TYPE) == CMultiBlock::TYPE_MAX, "ERROR : Type Count Mismatch");
 
 //************************************************************
 //	親クラス [CGridManager] のメンバ関数
@@ -114,15 +114,24 @@ void CGridManager::Update(const float fDeltaTime)
 }
 
 //============================================================
+//	ブロック判定の取得処理
+//============================================================
+bool CGridManager::IsBlock(const POSGRID2 & rPos)
+{
+	// 引数位置にブロックがあるかを返す
+	return m_aGrid[rPos.x][rPos.y].bBlock;
+}
+
+//============================================================
 //	ブロック色の反映処理
 //============================================================
-void CGridManager::SetColBlock(const POSGRID2& rCurPos, const CBlock::EType type)
+void CGridManager::SetColBlock(const POSGRID2& rCurPos, const CMultiBlock::EType type)
 {
 	// 種類に合わせた色を設定
 	m_aGrid[rCurPos.x][rCurPos.y].pVisual->SetColor(COL_TYPE[type]);
 
 	// ブロックがある場合判定をONにする
-	m_aGrid[rCurPos.x][rCurPos.y].bBlock = (type == CBlock::TYPE_NONE) ? false : true;
+	m_aGrid[rCurPos.x][rCurPos.y].bBlock = (type == CMultiBlock::TYPE_NONE) ? false : true;
 }
 
 //============================================================
